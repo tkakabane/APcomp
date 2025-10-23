@@ -1,7 +1,7 @@
 ############################
 library(paleofire)
 
-mainDir <-  "C:/........"   #Ideally same directory as used in Get_NeotomaData.R
+mainDir <-  "C:/"   #Ideally same directory as used in Get_NeotomaData.R
 
 proxy = "TRSH" # CHAR OR TRSH
 nameregion = "Neotropics"
