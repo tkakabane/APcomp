@@ -7,8 +7,7 @@ library(neotoma2)
 
 ####    Main directory
 # DEFINE DIRECTORY
-
-mainDir <- "C:/........."
+mainDir <- "C:/" #change accordingly
 
 ####    Name either of an existing folder or the one that
 ####    will be created within the main directory to store raw Neotoma data
