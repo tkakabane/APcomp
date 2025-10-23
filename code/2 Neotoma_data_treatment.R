@@ -3,7 +3,7 @@
 
 
 ####    Main directory
-mainDir <- "C:/Users/Thomas/OneDrive/1 - Artigo/Akabane compilations/1 - Data for paper/AP_pollenR/raw data/"
+mainDir <- "C:/"
 RegionName <- "Neotropics"
 
 
