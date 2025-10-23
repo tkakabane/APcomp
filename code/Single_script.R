@@ -8,7 +8,7 @@ library(neotoma2)
 ####    Main directory
 # DEFINE DIRECTORY
 
-mainDir <- "C:/........."
+mainDir <- "C:/"
 
 ####    Name either of an existing folder or the one that
 ####    will be created within the main directory to store raw Neotoma data
@@ -331,7 +331,7 @@ for (k in 1:length(PollenDataL)) {
 ############################
 library(paleofire)
 
-mainDir <-  "C:/........"   #Ideally same directory as used in Get_NeotomaData.R
+mainDir <-  "C:/"   #Ideally same directory as used in Get_NeotomaData.R
 
 proxy = "TRSH" # CHAR OR TRSH
 nameregion = "Neotropics"
@@ -423,7 +423,7 @@ library(dplyr)
 nameregion <- "Neotropics"
 
 # Folder path containing CSV files
-folder_path <- paste0("C:/Users/Thomas/OneDrive/1 - Artigo/Akabane compilations/1 - Data for paper/2nd Submission and Responses/Data used/", nameregion, "/", nameregion, " CHAR/")
+folder_path <- paste0("C:/.../Data used/", nameregion, "/", nameregion, " CHAR/")
 
 # List CSV files
 files <- list.files(path = folder_path, pattern = "\\.csv$", full.names = TRUE)
