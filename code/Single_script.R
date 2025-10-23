@@ -94,58 +94,58 @@ for (i in 1:length(data_list)) {
 PollenDataL = list.files(file.path(mainDir, RegionName, paste0("Neotoma_Raw_Data ", RegionName)), full.names = T)
 
 # Simplify and homogenize taxa names ########
-clean_taxa_names <- function(names, unique_only = TRUE) {
+#clean_taxa_names <- function(names, unique_only = TRUE) {
   #Remove ALL descriptors
-  names <- gsub("[?]", "", names)  # Remove "?"
-  names <- gsub("\\s*\\([^)]+\\)", "", names)  # Remove parentheses and their content
-  names <- gsub("\\b(aff\\.|cf\\.|sp\\.|undiff\\.?)\\s*", "", names, ignore.case = TRUE)  # Remove qualifiers
-  names <- gsub("-type\\b(I{0,3}|\\s.*)?$", "", names, ignore.case = TRUE)  # Remove ALL -type suffixes (including Roman numerals)
-  names <- trimws(names)  # Trim whitespace
+  #names <- gsub("[?]", "", names)  # Remove "?"
+  #names <- gsub("\\s*\\([^)]+\\)", "", names)  # Remove parentheses and their content
+  #names <- gsub("\\b(aff\\.|cf\\.|sp\\.|undiff\\.?)\\s*", "", names, ignore.case = TRUE)  # Remove qualifiers
+  #names <- gsub("-type\\b(I{0,3}|\\s.*)?$", "", names, ignore.case = TRUE)  # Remove ALL -type suffixes (including Roman numerals)
+  #names <- trimws(names)  # Trim whitespace
   
   # Define replacement patterns and corresponding replacements
-  replacements <- list(
-    "-type$" = "",
-    "Alchornea/Conceveibum|Aparisthmium|Conceveibum|Conceveiba|Alchorneopsis" = "Alchornea",
-    "Chenopodium/Amaranthus|Chenopodium|Arenaria" = "Amaranthus",
-    "Umbelliferae" = "Apiaceae",
-    "Asclepiadeae" = "Apocynaceae",
-    "\\b(Ambrosia|Artemisia|Gnaphalium|Baccharis|Bidens|Eupatorium|Carduoideae|Cichorioideae|Helianthus|Mikania|Mutisioideae|Senecio|Vernonia|Xanthium|Aspilia|Baccharis-type|Asteroideae|Asteraceae-type|Ambrosia-type|Aster)\\b" = "Asteraceae", #Mutisia - arboreal 
-    "Borreria-type|Mitracarpus|Spermacoce" = "Borreria",
-    "Crotonoideae" = "Croton",
-    "Carex|Cyperus|Eleocharis|Fimbristylis|Fuirena|Rhynchospora|Scleria|Cyperaceae-type" = "Cyperaceae",
-    "Euterpe/Geonoma-type" = "Euterpe",
-    "Eucryphia/Caldcluvia|Caldcluvia|Caldcluvia/Eucryphia" = "Eucryphia",
-    "Fabales" = "Faboideae",
-    "Gomphrena-type|Gomphrena/Pfaffia" = "Gomphrena",
-    "Mauritia/Mauritiella|Mauritiella|Mauritia carana|Mauritia flexuosa" = "Mauritia",
-    "Combretum|Combretaceae/Melastomataceae|Melastomataceae/Combretaceae|Combretaceae" = "Melastomataceae",
-    "mimosoid" = "Mimosoideae",
-    "Urticaceae/Moraceae-type|Urticaceae/Moraceae|Urticalean|Moraceae|Brosimum|Castilla|Ficus|Maclura|Morus|Sorocea|Trophis" = "Moraceae",
-    "Eucalyptus|Eugenia|Myrcia|Myrceugenia|Myrciaria|Psidium|Campomanesia|Melaleuca|Eugenia/Melaleuca|Luma|Myrteola|Ugni" = "Myrtaceae",
-    "Rapanea|Myrsinoideae" = "Myrsine",
-    "\\b(Alopecurus|Avena|Festuca|Paspalum|Phleum|Poa|Secale)\\b" = "Poaceae",
-    "Didymopanax-type|Didymopanax" = "Schefflera",
-    "Tabebuia|Handroanthus" = "Tabebuia/Handroanthus",
-    "?Lauraceae" =  "Lauraceae"
-  )
+  #replacements <- list(
+  #  "-type$" = "",
+  #  "Alchornea/Conceveibum|Aparisthmium|Conceveibum|Conceveiba|Alchorneopsis" = "Alchornea",
+  #  "Chenopodium/Amaranthus|Chenopodium|Arenaria" = "Amaranthus",
+  #  "Umbelliferae" = "Apiaceae",
+  #  "Asclepiadeae" = "Apocynaceae",
+  #  "\\b(Ambrosia|Artemisia|Gnaphalium|Baccharis|Bidens|Eupatorium|Carduoideae|Cichorioideae|Helianthus|Mikania|Mutisioideae|Senecio|Vernonia|Xanthium|Aspilia|Baccharis-type|Asteroideae|Asteraceae-type|Ambrosia-type|Aster)\\b" = "Asteraceae", #Mutisia - arboreal 
+  #  "Borreria-type|Mitracarpus|Spermacoce" = "Borreria",
+  #  "Crotonoideae" = "Croton",
+  #  "Carex|Cyperus|Eleocharis|Fimbristylis|Fuirena|Rhynchospora|Scleria|Cyperaceae-type" = "Cyperaceae",
+  #  "Euterpe/Geonoma-type" = "Euterpe",
+  #  "Eucryphia/Caldcluvia|Caldcluvia|Caldcluvia/Eucryphia" = "Eucryphia",
+  #  "Fabales" = "Faboideae",
+  #  "Gomphrena-type|Gomphrena/Pfaffia" = "Gomphrena",
+  #  "Mauritia/Mauritiella|Mauritiella|Mauritia carana|Mauritia flexuosa" = "Mauritia",
+  #  "Combretum|Combretaceae/Melastomataceae|Melastomataceae/Combretaceae|Combretaceae" = "Melastomataceae",
+  #  "mimosoid" = "Mimosoideae",
+  #  "Urticaceae/Moraceae-type|Urticaceae/Moraceae|Urticalean|Moraceae|Brosimum|Castilla|Ficus|Maclura|Morus|Sorocea|Trophis" = "Moraceae",
+  #  "Eucalyptus|Eugenia|Myrcia|Myrceugenia|Myrciaria|Psidium|Campomanesia|Melaleuca|Eugenia/Melaleuca|Luma|Myrteola|Ugni" = "Myrtaceae",
+  #  "Rapanea|Myrsinoideae" = "Myrsine",
+  #  "\\b(Alopecurus|Avena|Festuca|Paspalum|Phleum|Poa|Secale)\\b" = "Poaceae",
+  #  "Didymopanax-type|Didymopanax" = "Schefflera",
+  #  "Tabebuia|Handroanthus" = "Tabebuia/Handroanthus",
+  #  "?Lauraceae" =  "Lauraceae"
+  #)
   
   
   # Apply taxonomic group replacements (after general cleanup)
-  for (pattern in names(replacements)) {
-    names <- gsub(pattern, replacements[[pattern]], names)
-  }
+  #for (pattern in names(replacements)) {
+  #  names <- gsub(pattern, replacements[[pattern]], names)
+  #}
   
   # Final standardization
-  names <- sapply(strsplit(names, "/"), function(x) x[1])  # Keep first part before "/"
-  names <- sapply(strsplit(names, " "), function(x) x[1])  # Keep first word
+  #names <- sapply(strsplit(names, "/"), function(x) x[1])  # Keep first part before "/"
+  #names <- sapply(strsplit(names, " "), function(x) x[1])  # Keep first word
   
   # Return result
-  if (unique_only) {
-    return(unique(names))
-  } else {
-    return(names)
-  }
-} # Not used 
+  #if (unique_only) {
+  #  return(unique(names))
+  #} else {
+  #  return(names)
+  #}
+#} # Not used 
 #combined_data <- do.call(rbind, lapply(PollenDataL, read.csv))
 #first_namestax <- clean_taxa_names(combined_data$variablename, unique_only = F)
 #combined_namstax <- cbind(combined_data$variablename,first_namestax,combined_data$ecologicalgroup)
