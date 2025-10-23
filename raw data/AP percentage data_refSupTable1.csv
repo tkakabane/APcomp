@@ -6771,38 +6771,38 @@ Ref,SampleID,Site name,DEPTH,AGE,AP (%),Pollen data source,Group
 157,6770,Laguna de Chochos,857,15531,80.57971014,Neotoma,TrAn
 157,6771,Laguna de Chochos,871,15804,82.02247191,Neotoma,TrAn
 157,6772,Laguna de Chochos,882,16020,67.82178218,Neotoma,TrAn
-159,6773,Catimbau,1.422305764,-39,51.875,Manually extracted,NEB
-159,6774,Catimbau,11.38471178,63,39.375,Manually extracted,NEB
-159,6775,Catimbau,20.96177945,158,30,Manually extracted,NEB
-159,6776,Catimbau,31.45676692,281,43.75,Manually extracted,NEB
-159,6777,Catimbau,36.62593985,390,35,Manually extracted,NEB
-159,6778,Catimbau,40.73621554,489,55,Manually extracted,NEB
-159,6779,Catimbau,45.82706767,622,30.625,Manually extracted,NEB
-159,6780,Catimbau,51.87656642,772,37.5,Manually extracted,NEB
-159,6781,Catimbau,56.67919799,897,35.625,Manually extracted,NEB
-159,6782,Catimbau,61.43483709,1027,24.375,Manually extracted,NEB
-159,6783,Catimbau,65.80513784,1200,16.25,Manually extracted,NEB
-159,6784,Catimbau,70.64536341,1414,21.875,Manually extracted,NEB
-159,6785,Catimbau,75.93671679,1613,37.5,Manually extracted,NEB
-159,6786,Catimbau,81.13721805,1841,35,Manually extracted,NEB
-159,6787,Catimbau,91.05263158,2654,13.125,Manually extracted,NEB
-159,6788,Catimbau,101.5695489,3527,31.25,Manually extracted,NEB
-159,6789,Catimbau,111.3847118,4466,69.375,Manually extracted,NEB
-159,6790,Catimbau,113.1641604,4831,24.375,Manually extracted,NEB
-159,6791,Catimbau,116.0557644,5375,41.25,Manually extracted,NEB
-159,6792,Catimbau,118.4743108,6094,43.75,Manually extracted,NEB
-159,6793,Catimbau,121.1239905,6852,34.21296296,Manually extracted,NEB
-159,6794,Catimbau,123.7763825,7046,54.10590278,Manually extracted,NEB
-159,6795,Catimbau,125.7489064,7209,30.95775463,Manually extracted,NEB
-159,6796,Catimbau,128.047767,7293,26.61747685,Manually extracted,NEB
-159,6797,Catimbau,131.0609423,7390,25.89409722,Manually extracted,NEB
-159,6798,Catimbau,135.9650573,7460,32.04282407,Manually extracted,NEB
-159,6799,Catimbau,138.0663029,7571,34.57465278,Manually extracted,NEB
-159,6800,Catimbau,141.5236587,7748,29.87268519,Manually extracted,NEB
-159,6801,Catimbau,146.204777,8186,37.82986111,Manually extracted,NEB
-159,6802,Catimbau,151.0436247,8664,30.95775463,Manually extracted,NEB
-159,6803,Catimbau,156.1000302,9174,21.19212963,Manually extracted,NEB
-159,6804,Catimbau,160.734011,9688,19.74537037,Manually extracted,NEB
+159,6773,Catimbau,1.422305764,-43,51.875,Manually extracted,NEB
+159,6774,Catimbau,11.38471178,61,39.375,Manually extracted,NEB
+159,6775,Catimbau,20.96177945,164,30,Manually extracted,NEB
+159,6776,Catimbau,31.45676692,257,43.75,Manually extracted,NEB
+159,6777,Catimbau,36.62593985,367,35,Manually extracted,NEB
+159,6778,Catimbau,40.73621554,485,55,Manually extracted,NEB
+159,6779,Catimbau,45.82706767,614,30.625,Manually extracted,NEB
+159,6780,Catimbau,51.87656642,748,37.5,Manually extracted,NEB
+159,6781,Catimbau,56.67919799,865,35.625,Manually extracted,NEB
+159,6782,Catimbau,61.43483709,966,24.375,Manually extracted,NEB
+159,6783,Catimbau,65.80513784,1144,16.25,Manually extracted,NEB
+159,6784,Catimbau,70.64536341,1356,21.875,Manually extracted,NEB
+159,6785,Catimbau,75.93671679,1553,37.5,Manually extracted,NEB
+159,6786,Catimbau,81.13721805,1741,35,Manually extracted,NEB
+159,6787,Catimbau,91.05263158,1951,13.125,Manually extracted,NEB
+159,6788,Catimbau,101.5695489,2162,31.25,Manually extracted,NEB
+159,6789,Catimbau,111.3847118,2376,69.375,Manually extracted,NEB
+159,6790,Catimbau,113.1641604,6130,24.375,Manually extracted,NEB
+159,6791,Catimbau,116.0557644,6217,41.25,Manually extracted,NEB
+159,6792,Catimbau,118.4743108,6317,43.75,Manually extracted,NEB
+159,6793,Catimbau,121.1239905,6444,34.21296296,Manually extracted,NEB
+159,6794,Catimbau,123.7763825,6676,54.10590278,Manually extracted,NEB
+159,6795,Catimbau,125.7489064,6921,30.95775463,Manually extracted,NEB
+159,6796,Catimbau,128.047767,7132,26.61747685,Manually extracted,NEB
+159,6797,Catimbau,131.0609423,7312,25.89409722,Manually extracted,NEB
+159,6798,Catimbau,135.9650573,7377,32.04282407,Manually extracted,NEB
+159,6799,Catimbau,138.0663029,7400,34.57465278,Manually extracted,NEB
+159,6800,Catimbau,141.5236587,7427,29.87268519,Manually extracted,NEB
+159,6801,Catimbau,146.204777,8021,37.82986111,Manually extracted,NEB
+159,6802,Catimbau,151.0436247,8487,30.95775463,Manually extracted,NEB
+159,6803,Catimbau,156.1000302,8968,21.19212963,Manually extracted,NEB
+159,6804,Catimbau,160.734011,9483,19.74537037,Manually extracted,NEB
 161,6805,Lago do Saci,0,1222,84.10102204,Manually extracted,Amazonia
 161,6806,Lago do Saci,1.207223806,1246,84.77021484,Manually extracted,Amazonia
 161,6807,Lago do Saci,8.193979003,1387,84.78933463,Manually extracted,Amazonia
