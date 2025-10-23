@@ -1,25 +1,26 @@
 # APcomp
-Repository for the R-based script used in Akabane et al. (in review) – Vegetation and fire regimes in the Neotropics over the last 21,000 years. DOI: https://doi.org/10.5194/egusphere-2025-1424
+Repository for the R-based scripts used in Akabane et al. (2025)
+“Vegetation and fire regimes in the Neotropics over the last 21,000 years”, Earth System Dynamics
 
-This repository will be updated alongside the publication of the manuscript.
+This repository contains scripts for:
 
-It contains raw data on charcoal influx and arboreal pollen (AP) percentages, along with their corresponding references and site locations.
-Included here are the scripts used in the study, organized into three main steps:
+1 - Data retrieval from the Neotoma database using the neotoma2 R package. (1_Get_NeotomaData.R)
+2 - Data processing, including the calculation of arboreal pollen (AP) percentages from the downloaded datasets. (2_Neotoma_data_treatment.R)
+3 - Composite curve construction for defined subregions, using tools provided by the paleofire R package. (3_Paleofire_script.R)
 
-1 - Data retrieval from the Neotoma database using the neotoma2 R package.
+The scripts primarily address AP calculations and composite construction, as workflows for charcoal influx data have already been well established in previous studies (e.g., Blarquez et al., 2014). In contrast, equivalent workflows for AP are rarely implemented and, to my knowledge, not yet openly available. Therefore, Step 2 bridges data downloaded in Neotoma format with the procedures commonly applied to charcoal data.
 
-2 - Data processing, including the calculation of arboreal pollen percentages from the downloaded datasets.
+Datasets obtained from PANGAEA or manually extracted from publications are not included in the automated scripts but are also made available in this repository.
 
-3 - Composite curve construction for defined subregions, using tools provided by the paleofire R package.
+This repository also includes the main transformed and processed datasets used to generate the graphs in Akabane et al. (2025):
 
-The scripts here focus primarily on AP calculations and composites, as workflows for charcoal influx have already been well established in previous studies (e.g., Blarquez et al., 2014). In contrast, similar workflows for AP are rarely implemented and, to my knowledge, not yet openly available. Thus, Step 2 provides the link between data downloaded in Neotoma format and its preparation for use with the same methods typically applied to charcoal data.
-Additional datasets obtained from PANGAEA or manually extracted from publications are not included in the automated script, but they are also made available in this repository.
+It contains data on charcoal influx (CHAR) and arboreal pollen (TRSH) percentages, along with their corresponding references and site locations.
+Please refer to RefSupTable.csv for additional information (reference, location, site elevation, source database) and for checking the codes used for the charcoal influx files (CHAR).
 
-Suggestions for improvement are welcome, as the current version of the scripts is not yet fully organized.
-A clearer description and improved instructions for the scripts will be added in the near future.
+Suggestions for improvement are welcome and may be incorporated into future releases.
+Please feel free to contact me if you have any questions.
 
-Current link for the manuscript: https://egusphere.copernicus.org/preprints/2025/egusphere-2025-1424/
+e-mail: thomask.akabane@gmail.com
 
-
-References:
+References: 
 Blarquez, O., Vannière, B., Marlon, J. R., Daniau, A. L., Power, M. J., Brewer, S., and Bartlein, P. J.: Paleofire: An R package to analyse sedimentary charcoal records from the Global Charcoal Database to reconstruct past biomass burning, Comput. Geosci., 72, 255–261, https://doi.org/10.1016/j.cageo.2014.07.020, 2014.
