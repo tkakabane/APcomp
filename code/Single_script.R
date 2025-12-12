@@ -1,33 +1,32 @@
 ######   ORGANIZE NEOTOMA DATA - FOR TERRESTRIAL POLLEN  #######
 # Based on the workflow presented in https://open.neotomadb.org/EPD_binder/simple_workflow.html
-
-
 library(neotoma2)
-
+library(paleofire)
 
 ####    Main directory
 # DEFINE DIRECTORY
-
 mainDir <- "C:/"
 
 ####    Name either of an existing folder or the one that
 ####    will be created within the main directory to store raw Neotoma data
-RegionName <- "Neotropics"
+RegionName <- "Region_name"
 
-options(warn = 1)
+#Minimum counts to include a sample (all samples with less counts will be excluded)
+min.count <- 100
 
 #####      STEP 1    ######
 #### GET NEOTOMA DATA #####
 
-####    Define coordinates of the area of interest 
+####    Define coordinates of the area of interest
+## Coordinates can be obtained at https://geojson.io/
 cz <- list(geoJSON = '{"type": "Polygon",
         "coordinates": [[
             [-33, -58],
-            [-105, -58],
-            [-105, 28],
-            [-33, 28],
-           [-33, -58]]]}')
-#https://geojson.io/
+            [-50, -58],
+            [-50, -20],
+            [-33, -20],
+            [-33, -58]
+           ]]}')
 
 cz$sf <- geojsonsf::geojson_sf(cz$geoJSON)[[1]]
 #
@@ -42,37 +41,34 @@ neotoma2::plotLeaflet(cz_sites) %>%
                        data = cz$sf,
                        color = "green")
 
-
-write.csv(cz_sites[-1], paste0(mainDir,"Site_metadata_",RegionName,".csv"))
-
-
 cz_datasets <- cz_sites %>% get_downloads(all_data = TRUE)
 allSamp <- samples(cz_datasets)
+#Check Ecological Groups
+unique(allSamp$ecologicalgroup)
+
 
 # Create a filtered version of allSamp
 allSamp <- allSamp %>%
   dplyr::filter(
     element == "pollen",                      # Keep only "pollen" elements
     ecologicalgroup %in% c(                 # Include specific ecological groups
-      "UPHE", "TRSH", "PALM", 
-      "MANG", "AQVP"
+      "UPHE", "TRSH", "PALM",  #Neotoma classification UPHE - upland herbs; TRSH - trees and shrubs; MANG - MAngrove
+      "MANG", "AQVP"           #AQVP - Aquatic vascular plants; PALM - palms
     ),
     !is.na(element)                          # Remove rows with NA in 'element'
   )
 
 #Check Remaining Ecological Groups
-#unique(allSamp$ecologicalgroup)
-
-
+unique(allSamp$ecologicalgroup)
 
 #Create folder if it doesn't exist
 data_list <- split(allSamp, f = allSamp$datasetid)
 dir.create(file.path(mainDir, RegionName), showWarnings = T)
 dir.create(file.path(mainDir, RegionName, paste0("Neotoma_Raw_Data ", RegionName)), showWarnings = T)
 
+write.csv(as.data.frame(cz_sites[-1]), paste0(mainDir,RegionName,"/Site_metadata_",RegionName,".csv"))
 
-##### SAve files in a folder with the region name
-
+##### Save files in a folder with the region name
 for (i in 1:length(data_list)) {
   
   clean_name <- gsub("[^\\p{L}0-9_ -]", "", data_list[[i]]$sitename[1], perl = TRUE)
@@ -85,73 +81,10 @@ for (i in 1:length(data_list)) {
   }
 }
 
-
-########################################
+############     STEP 2      ###########
 ######## ORGANIZE NEOTOMA DATA #########
-########################################
-
 
 PollenDataL = list.files(file.path(mainDir, RegionName, paste0("Neotoma_Raw_Data ", RegionName)), full.names = T)
-
-# Simplify and homogenize taxa names ########
-#clean_taxa_names <- function(names, unique_only = TRUE) {
-  #Remove ALL descriptors
-  #names <- gsub("[?]", "", names)  # Remove "?"
-  #names <- gsub("\\s*\\([^)]+\\)", "", names)  # Remove parentheses and their content
-  #names <- gsub("\\b(aff\\.|cf\\.|sp\\.|undiff\\.?)\\s*", "", names, ignore.case = TRUE)  # Remove qualifiers
-  #names <- gsub("-type\\b(I{0,3}|\\s.*)?$", "", names, ignore.case = TRUE)  # Remove ALL -type suffixes (including Roman numerals)
-  #names <- trimws(names)  # Trim whitespace
-  
-  # Define replacement patterns and corresponding replacements
-  #replacements <- list(
-  #  "-type$" = "",
-  #  "Alchornea/Conceveibum|Aparisthmium|Conceveibum|Conceveiba|Alchorneopsis" = "Alchornea",
-  #  "Chenopodium/Amaranthus|Chenopodium|Arenaria" = "Amaranthus",
-  #  "Umbelliferae" = "Apiaceae",
-  #  "Asclepiadeae" = "Apocynaceae",
-  #  "\\b(Ambrosia|Artemisia|Gnaphalium|Baccharis|Bidens|Eupatorium|Carduoideae|Cichorioideae|Helianthus|Mikania|Mutisioideae|Senecio|Vernonia|Xanthium|Aspilia|Baccharis-type|Asteroideae|Asteraceae-type|Ambrosia-type|Aster)\\b" = "Asteraceae", #Mutisia - arboreal 
-  #  "Borreria-type|Mitracarpus|Spermacoce" = "Borreria",
-  #  "Crotonoideae" = "Croton",
-  #  "Carex|Cyperus|Eleocharis|Fimbristylis|Fuirena|Rhynchospora|Scleria|Cyperaceae-type" = "Cyperaceae",
-  #  "Euterpe/Geonoma-type" = "Euterpe",
-  #  "Eucryphia/Caldcluvia|Caldcluvia|Caldcluvia/Eucryphia" = "Eucryphia",
-  #  "Fabales" = "Faboideae",
-  #  "Gomphrena-type|Gomphrena/Pfaffia" = "Gomphrena",
-  #  "Mauritia/Mauritiella|Mauritiella|Mauritia carana|Mauritia flexuosa" = "Mauritia",
-  #  "Combretum|Combretaceae/Melastomataceae|Melastomataceae/Combretaceae|Combretaceae" = "Melastomataceae",
-  #  "mimosoid" = "Mimosoideae",
-  #  "Urticaceae/Moraceae-type|Urticaceae/Moraceae|Urticalean|Moraceae|Brosimum|Castilla|Ficus|Maclura|Morus|Sorocea|Trophis" = "Moraceae",
-  #  "Eucalyptus|Eugenia|Myrcia|Myrceugenia|Myrciaria|Psidium|Campomanesia|Melaleuca|Eugenia/Melaleuca|Luma|Myrteola|Ugni" = "Myrtaceae",
-  #  "Rapanea|Myrsinoideae" = "Myrsine",
-  #  "\\b(Alopecurus|Avena|Festuca|Paspalum|Phleum|Poa|Secale)\\b" = "Poaceae",
-  #  "Didymopanax-type|Didymopanax" = "Schefflera",
-  #  "Tabebuia|Handroanthus" = "Tabebuia/Handroanthus",
-  #  "?Lauraceae" =  "Lauraceae"
-  #)
-  
-  
-  # Apply taxonomic group replacements (after general cleanup)
-  #for (pattern in names(replacements)) {
-  #  names <- gsub(pattern, replacements[[pattern]], names)
-  #}
-  
-  # Final standardization
-  #names <- sapply(strsplit(names, "/"), function(x) x[1])  # Keep first part before "/"
-  #names <- sapply(strsplit(names, " "), function(x) x[1])  # Keep first word
-  
-  # Return result
-  #if (unique_only) {
-  #  return(unique(names))
-  #} else {
-  #  return(names)
-  #}
-#} # Not used 
-#combined_data <- do.call(rbind, lapply(PollenDataL, read.csv))
-#first_namestax <- clean_taxa_names(combined_data$variablename, unique_only = F)
-#combined_namstax <- cbind(combined_data$variablename,first_namestax,combined_data$ecologicalgroup)
-#write.csv(combined_namstax,paste0(mainDir,"All_tables_mergedNeotoma.csv"))
-#################
-
 
 for (k in 1:length(PollenDataL)) {
   file_name <- basename(PollenDataL[k])
@@ -177,7 +110,6 @@ for (k in 1:length(PollenDataL)) {
     categories_ages <- unique(categories_ages)
     # Extract the 'age' values from the unique combinations
     categories_ages <- categories_ages$age
-    
     
     pollen_m <- matrix(nrow = length(categories_taxa),
                        ncol = length(categories_ages))
@@ -225,10 +157,9 @@ for (k in 1:length(PollenDataL)) {
     AP <- as.data.frame(pollen_m)
     AP <- AP[!(AP$group %in% c("MANG", "AQVP", "SEED")), ]
     
-    #AP <- AP[rownames(AP) != "Mauritia", ]
-    #AP <- AP[rownames(AP) != "Cyperaceae", ]
-    
-    
+    #AP <- AP[rownames(AP) != "Mauritia", ] # If there are taxa to exclude
+    #AP <- AP[rownames(AP) != "Cyperaceae", ] # If there are taxa to exclude
+
     # Transpose and adjust column names
     AP <- t(AP)
     colnames(AP) <- AP[1, ]
@@ -263,7 +194,7 @@ for (k in 1:length(PollenDataL)) {
       MANGRad <- rbind(categories_depths, categories_ages, mergedfPercMANG$MANG)
       MANGRad <- t(MANGRad)
       colnames(MANGRad) <- c("Depth", "Age", "MANG")
-      MANGRad <- MANGRad[!(sample.sum < 100), ]
+      MANGRad <- MANGRad[!(sample.sum < min.count), ]
       
     }
 
@@ -272,7 +203,7 @@ for (k in 1:length(PollenDataL)) {
     UPHERad <- rbind(categories_depths, categories_ages, mergedfPerc$UPHE)
     UPHERad <- t(UPHERad)
     colnames(UPHERad) <- c("Depth", "Age", "UPHE")
-    UPHERad <- UPHERad[!(sample.sum < 100), ]
+    UPHERad <- UPHERad[!(sample.sum < min.count), ]
     
     if ("PALM" %in% pollen_m) {
       TRSHRad <- rbind(categories_depths,
@@ -280,21 +211,21 @@ for (k in 1:length(PollenDataL)) {
                        mergedfPerc$TRSH + mergedfPerc$PALM)
       TRSHRad <- t(TRSHRad)
       colnames(TRSHRad) <- c("Depth", "Age", "TRSH")
-      TRSHRad <- TRSHRad[!(sample.sum < 100), ]
+      TRSHRad <- TRSHRad[!(sample.sum < min.count), ]
       
       
     } else {
       TRSHRad <- rbind(categories_depths, categories_ages, mergedfPerc$TRSH)
       TRSHRad <- t(TRSHRad)
       colnames(TRSHRad) <- c("Depth", "Age", "TRSH")
-      TRSHRad <- TRSHRad[!(sample.sum < 100), ]
+      TRSHRad <- TRSHRad[!(sample.sum < min.count), ]
     }
     
     
     dir.create(file.path(mainDir, RegionName, paste0(RegionName, " TRSH")), showWarnings = F)
     dir.create(file.path(mainDir, RegionName, paste0(RegionName, " UPHE")), showWarnings = F)
     
-    if (length(sample.sum[sample.sum > 100]) > 4) {
+    if (length(sample.sum[sample.sum > min.count]) > 4) {
       #REMOVE SITES WITH ONLY ONE REMAINING SAMPLE
   
   if("MANG" %in% PollenData$ecologicalgroup == T){
@@ -306,10 +237,10 @@ for (k in 1:length(PollenDataL)) {
     write.csv(UPHERad, paste0(mainDir,RegionName, "/",paste0(RegionName, " MANG_UPHE"),"/MANG_UPHE ",file_name,".csv"), row.names = F)
     write.csv(MANGRad, paste0(mainDir,RegionName, "/",paste0(RegionName, " MANG"),"/MANG ",file_name,".csv"), row.names = F)
     
-    if (max(MANGRad[, 3]) < 15) {
+    if (max(MANGRad[, 3]) < 15) { # This number indicates the minimum contribution of mangrove taxa to consider the sample
       
-      write.csv(TRSHRad, paste0(mainDir,RegionName, "/",paste0(RegionName, " TRSH"),"/MANG_TRSH ",file_name,".csv"), row.names = F)
-      write.csv(UPHERad, paste0(mainDir,RegionName, "/",paste0(RegionName, " UPHE"),"/MANG_UPHE ",file_name,".csv"), row.names = F)
+      write.csv(TRSHRad, paste0(mainDir,RegionName, "/",paste0(RegionName, " TRSH"),"/TRSH_MANG ",file_name,".csv"), row.names = F)
+      write.csv(UPHERad, paste0(mainDir,RegionName, "/",paste0(RegionName, " UPHE"),"/UPHE_MANG ",file_name,".csv"), row.names = F)
     }} else {
       
     write.csv(UPHERad, paste0(mainDir,RegionName, "/",paste0(RegionName, " UPHE"),"/UPHE ",file_name,".csv"), row.names = F)
@@ -321,27 +252,21 @@ for (k in 1:length(PollenDataL)) {
   } else {
     print(paste0(file_name, " - Not analyzed: Contains only one taxon or a radiocarbon age"))
   }
-  
 }
 
-
-#######
-
-############################
-############################
-library(paleofire)
-
-mainDir <-  "C:/"   #Ideally same directory as used in Get_NeotomaData.R
+#############      STEP 3        #############
+####### PALEOFIRE PACKAGE STARTS HERE ########
+#library(paleofire)
+#mainDir <-  "C:/"   #Ideally same directory as used in Get_NeotomaData.R
 
 proxy = "TRSH" # CHAR OR TRSH
-nameregion = "Neotropics"
-
+nameregion = RegionName # NAME OF THE REGION
 
 #Set parameters for generating the composite curve
 TarAge = 20 #Pre-binning window value
 binhw = 40 #Bin half window value
 hw = 1000 #Half window value
-basePeriod = c(200, 21000)
+basePeriod = c(200, 21000) #Define base period for data treatment
 
 
 
@@ -371,7 +296,6 @@ trans_data1 <- pfTransform(trans_data1,
                            alpha = 0.01,
                            method = c("Box-Cox")
 )
-
 
 trans_data1 <- pfTransform(trans_data1, 
                            QuantType = "NONE",
@@ -406,43 +330,5 @@ plot(Data_comp
 N_records <- rowSums(!is.na(Data_comp$BinnedData))
 comp_data <- cbind(Data_comp$Result, N_records)
 
-write.csv(comp_data,paste0(mainDir,nameregion,"/",nameregion,"_",proxy,"_1000_40_20_PRSBP.csv"))
-
-
-
-
-
-
-
-
-
-
-
-library(dplyr)
-
-nameregion <- "Neotropics"
-
-# Folder path containing CSV files
-folder_path <- paste0("C:/.../Data used/", nameregion, "/", nameregion, " CHAR/")
-
-# List CSV files
-files <- list.files(path = folder_path, pattern = "\\.csv$", full.names = TRUE)
-
-# Function to read and tag each CSV file by its name (without .csv)
-read_and_tag <- function(filepath) {
-  filename <- basename(filepath)
-  file_id <- sub("\\.csv$", "", filename)  # Remove the ".csv" extension
-  
-  df <- read.csv(filepath)
-  df <- df %>% mutate(file_id = file_id)  # Add filename (no extension) as a column
-  
-  return(df)
-}
-
-# Read and combine all CSV files
-all_data <- bind_rows(lapply(files, read_and_tag)) %>%
-  dplyr::select(file_id, everything())
-
-write.csv(all_data, paste0(mainDir, nameregion, "All_DATA_CHAR.csv"))
-print(all_data)
+write.csv(comp_data,paste0(mainDir,nameregion,"/",nameregion,"_",proxy,"_hw",hw,"_binhw",binhw,"_tarAge",TarAge,".csv"))
 
