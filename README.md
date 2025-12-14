@@ -20,7 +20,7 @@ Mangrove pollen percentages based on MANG
 3. Composite curve construction for defined subregions
 Using tools provided by the paleofire R package (3_Paleofire_script.R).
 
-<strong> Note: A single, consolidated script including all steps described above is also provided and reflects the most up-to-date version of the workflow. </strong>
+<strong> ✔️ Note: A single, consolidated script including all steps described above is also provided and reflects the most up-to-date version of the workflow. ✔️ </strong>
 
 
 The scripts primarily address AP calculations and composite construction, as workflows for charcoal influx data have already been well established in previous studies (e.g., Blarquez et al., 2014). In contrast, equivalent workflows for AP are rarely implemented and, to my knowledge, not yet openly available. Therefore, Step 2 bridges data downloaded in Neotoma format with the procedures commonly applied to charcoal data.
