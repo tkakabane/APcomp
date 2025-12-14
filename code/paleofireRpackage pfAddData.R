@@ -3,7 +3,7 @@
 ### pfaddData function
 
 
-function (files, metadata = NULL, type = "NULL", Int = TRUE, 
+pfAddData <- function (files, metadata = NULL, type = "NULL", Int = TRUE, 
           first = NULL, last = NULL, yrInterp = NULL, sep = ",", dec = ".") {
   for (i in 1:length(files)) assign(paste("data", i, sep = ""), 
                                     read.csv(paste(files[i]), sep = sep, dec = dec))
