@@ -3,6 +3,7 @@
 library(neotoma2)
 library(paleofire)
 library(locfit)
+library(maps)
 
 ####    Main directory
 # DEFINE DIRECTORY
@@ -396,12 +397,30 @@ Data_comp <- pfCompositeLF(
 
 
 #
-par(mar= c(2,2,1,1))
-plot(Data_comp
-     ,add = "sitenum"
-     , ylim = c(-2,2)
-)
+#par(mar= c(2,2,1,1))
+#plot(Data_comp
+#     ,add = "sitenum"
+#     , ylim = c(-2,2)
+#)
 
+### CHECK LIMITS
+# plot results
+plot(comp_data$AGE, comp_data$LocFit, type = "l", ylim = c(-2.5, 2.5),
+     xlab = "", ylab = "LocFit Value", main = "LocFit Analysis")
+polygon(c(comp_data$AGE, rev(comp_data$AGE)),
+        c(comp_data$`0.025`, rev(comp_data$`0.975`)),
+        col = rgb(0.5, 0.5, 0.5, 0.3), border = NA)
+lines(comp_data$AGE, comp_data$LocFit)
+lines(comp_data$AGE, comp_data$`MEAN(of_boot)`, lty = 2, col = "red")
+
+# plot Number of Records
+barplot(comp_data$N_records, names.arg = comp_data$AGE,
+        col = "blue", alpha = 0.5, space = 0,
+        xlab = "Age", ylab = "Number of Records",
+        main = "Data Distribution by Age")
+
+
+                  
 N_records <- rowSums(!is.na(Data_comp$BinnedData))
 comp_data <- cbind(Data_comp$Result, N_records)
 
