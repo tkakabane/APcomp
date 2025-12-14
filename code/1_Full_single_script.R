@@ -2,6 +2,7 @@
 # Based on the workflow presented in https://open.neotomadb.org/EPD_binder/simple_workflow.html
 library(neotoma2)
 library(paleofire)
+library(locfit)
 
 ####    Main directory
 # DEFINE DIRECTORY
