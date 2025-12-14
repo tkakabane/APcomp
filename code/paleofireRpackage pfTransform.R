@@ -1,10 +1,10 @@
 #### pfTransform function from Paleofire R package
 
-
-pfTransform <- function (ID = NULL, add = NULL, Interpolate = FALSE, Age = NULL, 
+function (ID = NULL, add = NULL, Interpolate = FALSE, Age = NULL, 
           method = "NULL", BasePeriod = c(-100, 1e+09), span = 0.3, 
           RunWidth = 500, RunQParam = 0.5, stlYears = 500, type = "BoxCox1964", 
-          alpha = 0.01, QuantType = "INFL", MethodType = NULL, verbose = TRUE) {
+          alpha = 0.01, QuantType = "INFL", MethodType = NULL, verbose = TRUE) 
+{
   paleofiresites <- NULL
   rm(paleofiresites)
   IDChar <- ID
@@ -365,3 +365,67 @@ pfTransform <- function (ID = NULL, add = NULL, Interpolate = FALSE, Age = NULL,
   class(output) <- "pfTransform"
   return(output)
 }
+
+
+
+
+pfBoxCox <- function (serie, alpha = 0.01, type = "BoxCox1964") {
+  types <- c("BoxCox1964", "JohnDraper")
+  warntype <- type[(type %in% types) == FALSE]
+  if (length(warntype) != 0) {
+    stop(paste(warntype, "is not a valid type for pfBoxCox", 
+               sep = " "))
+  }
+  if (alpha == "alternative") {
+    alpha <- 0.5 * min(serie[serie != 0])
+  }
+  quant2 <- serie + alpha
+  npts <- 201
+  y <- quant2
+  n <- length(y)
+  logy <- log(y)
+  ydot <- exp(mean(logy))
+  lasave <- matrix(1:npts)
+  liksave <- matrix(1:npts)
+  for (i in 1:npts) {
+    la <- -2 + (i - 1) * (4/(npts - 1))
+    if (la != 0) 
+      yt <- (y^la - 1)/la
+    else yt <- logy * (1 + (la * logy)/2 * (1 + (la * logy)/3 * 
+                                              (1 + (la * logy)/4)))
+    zt <- yt/ydot^(la - 1)
+    loglik <- -n/2 * log(sum((zt - mean(zt))^2))
+    lasave[i] <- la
+    liksave[i] <- loglik
+  }
+  cbind(1, liksave[which.max(liksave)], lasave[which.max(liksave)])
+  laopt <- as.character(lasave[which.max(liksave)])
+  lafit <- lasave[which.max(liksave)]
+  if (type == "BoxCox1964") {
+    if (lafit == 0) 
+      tquant <- log(quant2)
+    else tquant <- (quant2^lafit - 1)/lafit
+  }
+  if (type == "JohnDraper") {
+    s <- sign(quant2)
+    s[s == 0] <- 1
+    if (lafit == 0) {
+      tquant <- s * (log(abs(quant2) + 1))
+    }
+    else {
+      tquant <- s * (((abs(quant2) + 1)^lafit - 1)/lafit)
+    }
+  }
+  return(tquant)
+}
+
+
+
+
+pfMinMax <- function (serie) 
+{
+  serie <- (serie - min(serie, na.rm = TRUE))/(max(serie, na.rm = TRUE) - 
+                                                 min(serie, na.rm = TRUE))
+  return(serie)
+}
+
