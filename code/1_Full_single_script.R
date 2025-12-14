@@ -1,10 +1,9 @@
-######   ORGANIZE NEOTOMA DATA - FOR TERRESTRIAL POLLEN  #######
-# Based on the workflow presented in https://open.neotomadb.org/EPD_binder/simple_workflow.html
 library(neotoma2)
-library(paleofire)
+library(paleofire) #If paleofire fails to install because of rgdal, run pfCompositeLF, pfAddData, and pfTransform directly from the provided scripts.
 library(locfit)
 library(maps)
 
+######   ORGANIZE NEOTOMA DATA - FOR TERRESTRIAL POLLEN  #######
 ####    Main directory
 # DEFINE DIRECTORY
 mainDir <- "C:/"
@@ -16,7 +15,7 @@ min.count <- 100 #Minimum counts to include a sample (all samples with less coun
 
 #####      STEP 1    ######
 #### GET NEOTOMA DATA #####
-
+# Based on the workflow presented in https://open.neotomadb.org/EPD_binder/simple_workflow.html
 ####    Define coordinates of the area of interest
 ## Coordinates can be obtained at https://geojson.io/
 cz <- list(geoJSON = '{"type": "Polygon",
