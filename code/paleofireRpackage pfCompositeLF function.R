@@ -1,9 +1,8 @@
 # pfCompositeLF from paleofire R Package
 
 
-function (TR, hw = 250, tarAge = NULL, binhw = NULL, nboot = 1000, 
-    conf = c(0.05, 0.95), pseudodata = FALSE, verbose = TRUE) 
-{
+pfCompositeLF <- function (TR, hw = 250, tarAge = NULL, binhw = NULL, nboot = 1000, 
+    conf = c(0.05, 0.95), pseudodata = FALSE, verbose = TRUE) {
     if (is.matrix(TR) | is.data.frame(TR)) {
         ID <- unique(TR[, 1])
         lgth <- c()
