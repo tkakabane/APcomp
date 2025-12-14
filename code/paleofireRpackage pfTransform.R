@@ -1,7 +1,7 @@
 #### pfTransform function from Paleofire R package
 
 
-function (ID = NULL, add = NULL, Interpolate = FALSE, Age = NULL, 
+pfTransform <- function (ID = NULL, add = NULL, Interpolate = FALSE, Age = NULL, 
           method = "NULL", BasePeriod = c(-100, 1e+09), span = 0.3, 
           RunWidth = 500, RunQParam = 0.5, stlYears = 500, type = "BoxCox1964", 
           alpha = 0.01, QuantType = "INFL", MethodType = NULL, verbose = TRUE) {
