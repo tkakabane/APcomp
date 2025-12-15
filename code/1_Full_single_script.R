@@ -2,6 +2,7 @@ library(neotoma2)
 library(paleofire) #If paleofire fails to install because of rgdal, run pfCompositeLF, pfAddData, and pfTransform directly from the provided scripts.
 library(locfit)
 library(maps)
+library(ggplot2)
 
 ######   ORGANIZE NEOTOMA DATA - FOR TERRESTRIAL POLLEN  #######
 ####    Main directory
